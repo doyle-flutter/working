@@ -1,50 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:helworld/MainPage.dart';
-import 'package:helworld/InputPage.dart';
+import 'package:goalmemo/ContentsPage.dart';
+import 'package:goalmemo/DBHelper.dart';
+import 'package:goalmemo/InputPage.dart';
 
-void main() => runApp(
-  MaterialApp(
-    home:CheckPage()
-  )
-);
-
-
-class CheckPage extends StatefulWidget {
-  @override
-  _CheckPageState createState() => _CheckPageState();
+void main()  async{
+  runApp(
+    MaterialApp(
+      home:MyApp()
+    )
+  );
 }
 
-class _CheckPageState extends State<CheckPage> {
-  pageMove(BuildContext context, movePage) async{
-    return Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => movePage
-        )
-    );
-  }
-
-  checking(BuildContext context) async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var movePage = (pref.getString("goal") == null && pref.getInt("days") == null)
-        ? InputPage()
-        : MainPage();
-    return Future.delayed(Duration(seconds: 2), () => pageMove(context, movePage));
-  }
+class MyApp extends StatelessWidget {
+  DBHelper dbHelper = new DBHelper();
 
   @override
   Widget build(BuildContext context) {
-    checking(context);
 
     return Scaffold(
-      body: Center(
-        child: Text(
-            "로딩중"
-        ),
+      appBar: AppBar(
+        title: Text("메인"),
       ),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              FutureBuilder(
+                future: dbHelper.goalTitle,
+                builder: (context, snap){
+                  if(!snap.hasData){
+                    return RaisedButton(
+                      child: Text("입력하러가기"),
+                      onPressed: (){
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InputPage()
+                          )
+                        );
+                      },
+                    );
+
+                  }
+                  else {
+                    return ContentsPage();
+                  }
+                },
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 }
-
-
-
