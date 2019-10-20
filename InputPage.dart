@@ -46,22 +46,102 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
 
-//    titleField(),
-//    dateField(),
-//    submitBtn(),
-//    cancelBtn()
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("입력"),
+        centerTitle: false,
+        title: Text(
+          "하나의 목표",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: ,
-                child: ,
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                color: Colors.blueAccent,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10.0
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height:60,
+                      margin: EdgeInsets.only(
+                        right: 10.0
+                      ),
+                      child: Text(
+                        "목표 : ",
+                        style: TextStyle(
+                            fontSize: 24.0
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Container(
+                      height: 80,
+                      child: titleField(),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                    top: 10.0,
+                    bottom: 10.0
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height:60,
+                      margin: EdgeInsets.only(
+                          right: 10.0
+                      ),
+                      child: Text(
+                        "회차 : ",
+                        style: TextStyle(
+                          fontSize: 24.0
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Container(
+                      height: 80,
+                      child: dateField(),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    submitBtn(),
+                    cancelBtn(),
+                  ],
+                ),
               )
             ],
           ),
@@ -99,7 +179,15 @@ class _InputPageState extends State<InputPage> {
         dbHelper.goalCurrentDate = currentDate;
         movePage();
       },
-      child: Text("입력"),
+      color: Colors.blue[400],
+      child: Text(
+        "입력",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0
+        ),
+      ),
     );
   }
   cancelBtn(){
@@ -109,7 +197,14 @@ class _InputPageState extends State<InputPage> {
         titleController.clear();
         dateController.clear();
       },
-      child: Text("db삭제"),
+      child: Text(
+        "취소",
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0
+        ),
+      ),
     );
   }
 }
