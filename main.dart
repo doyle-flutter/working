@@ -4,15 +4,30 @@ import 'package:goalmemo/DBHelper.dart';
 import 'package:goalmemo/InputPage.dart';
 
 void main()  async{
+
+  Future getcureent() {
+    DBHelper dbHelper = new DBHelper();
+    return dbHelper.goalCurrentDate ?? 0;
+  }
+
+  var initcurrentr = await Future.wait([
+    getcureent()
+  ]);
+
   runApp(
     MaterialApp(
-      home:MyApp()
+      home:MyApp(
+        currentDate: initcurrentr[0],
+      )
     )
   );
 }
 
 class MyApp extends StatelessWidget {
   DBHelper dbHelper = new DBHelper();
+
+  int currentDate;
+  MyApp({this.currentDate});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +63,9 @@ class MyApp extends StatelessWidget {
                 );
               }
               else {
-                return ContentsPage();
+                return ContentsPage(
+                  currentDate: currentDate
+                );
               }
             },
           )
